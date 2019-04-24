@@ -64,10 +64,11 @@ func (r *nodeSQLRunner) Wait() error {
 	log.V(1).Info("wait for mysql to be ready")
 
 	for i := 0; i < mysqlReadyTries; i++ {
-		time.Sleep(1 * time.Second)
 		if err := r.runQuery("SELECT 1"); err == nil {
 			break
 		}
+		// wait a second
+		time.Sleep(1 * time.Second)
 	}
 	if err := r.runQuery("SELECT 1"); err != nil {
 		log.V(1).Info("mysql is not ready", "error", err)
